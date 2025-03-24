@@ -9,10 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
     
-    <!-- A-Ads -->
-    <iframe data-aa='2387228' src='//ad.a-ads.com/2387228?size=728x90' 
-            style='width:728px; height:90px; border:0px; padding:0; overflow:hidden; background-color: transparent;'></iframe>
-  <style>
+    <style>
         :root {
             --bg-primary: #343541;
             --bg-secondary: #444654;
@@ -57,7 +54,6 @@
             height: 100vh;
             overflow: hidden;
         }
-
         /* Sidebar */
         .sidebar {
             width: 260px;
@@ -168,11 +164,13 @@
             flex-direction: column;
             height: 100vh;
             margin-left: 260px;
+            width: calc(100% - 260px);
         }
 
         @media (max-width: 767px) {
             .main {
                 margin-left: 0;
+                width: 100%;
             }
         }
 
@@ -205,7 +203,7 @@
             flex: 1;
             text-align: center;
         }
-            /* Messages */
+        /* Messages */
         .chat-container {
             flex: 1;
             overflow-y: auto;
@@ -216,6 +214,7 @@
             padding: 20px 16px;
             display: flex;
             transition: background-color 0.3s;
+            width: 100%;
         }
 
         .user-message {
@@ -352,7 +351,7 @@
             color: var(--text-secondary);
             font-size: 14px;
         }
-            /* Input Area */
+        /* Input Area */
         .input-area {
             position: fixed;
             bottom: 0;
@@ -518,14 +517,37 @@
                 opacity: 0.6;
             }
         }
+        /* Ads Positioning */
+        .top-ad {
+            width: 100%;
+            text-align: center;
+            background: transparent;
+            padding: 8px 0;
+            overflow: hidden;
+        }
+
+        .bottom-ad {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 100;
+            background: transparent;
+        }
     </style>
 </head>
 <body>
+    <!-- Top Ad -->
+    <div class="top-ad">
+        <iframe data-aa='2387228' src='//ad.a-ads.com/2387228?size=728x90' 
+            style='width:728px; height:90px; border:0px; padding:0; overflow:hidden; background-color: transparent;'></iframe>
+    </div>
+
     <!-- Sidebar Mobile Overlay -->
     <div class="overlay" id="overlay"></div>
 
     <!-- Sidebar -->
-    <aside class="sidebar" id="sidebar">
+    <aside class="sidebar sidebar-collapsed" id="sidebar">
         <button class="new-chat-btn" id="newChatBtn">
             <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
                 <line x1="12" y1="5" x2="12" y2="19"></line>
@@ -613,7 +635,7 @@
             </div>
         </div>
     </main>
-        <script>
+    <script>
         // DOM Elements
         const sidebar = document.getElementById('sidebar');
         const overlay = document.getElementById('overlay');
@@ -706,7 +728,6 @@
                 themeIcon.innerHTML = '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>';
             }
         }
-
         function saveThemePreference() {
             const isDarkMode = !document.body.classList.contains('light-mode');
             localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
@@ -740,7 +761,7 @@
                 }
             }
         }
-                  // Send a message
+        // Send a message
         function sendMessage() {
             const text = userInput.value.trim();
             if (text === '') return;
@@ -852,15 +873,15 @@
             renderMessages();
             saveToLocalStorage();
         }
-                  // Simulate AI thinking and typing
+
+        // Simulate AI thinking and typing
         function simulateTyping(userMessage) {
             isLoading = true;
             renderLoadingIndicator();
             scrollToBottom();
             
             // Simulate API call delay
-            setTimeout(() => {
-                // Generate AI response based on user message
+            setTimeout(() => {// Generate AI response based on user message
                 const aiResponse = generateAIResponse(userMessage);
                 isLoading = false;
                 
@@ -869,12 +890,11 @@
                 scrollToBottom();
             }, 1500);
         }
-
         // Simple response generation
         function generateAIResponse(userMessage) {
             const lowerCase = userMessage.toLowerCase();
             
-            if (lowerCase.includes('xin chào') || lowerCase.includes('chào') || lowerCase.includes('hello')) {
+            if (lowerCase.includes('xin chào')  lowerCase.includes('chào')  lowerCase.includes('hello')) {
                 return 'Xin chào! Tôi là trợ lý AI, tôi có thể giúp gì cho bạn?';
             } else if (lowerCase.includes('tên') && lowerCase.includes('gì')) {
                 return 'Tôi là Trợ lý AI Thông Minh, một chatbot được tạo ra để trò chuyện và hỗ trợ bạn bằng tiếng Việt.';
@@ -895,8 +915,8 @@
             
             chats.forEach(chat => {
                 const chatItem = document.createElement('div');
-                chatItem.className = `chat-history-item ${chat.active ? 'active' : ''}`;
-                chatItem.innerHTML = `
+                chatItem.className = chat-history-item ${chat.active ? 'active' : ''};
+                chatItem.innerHTML = 
                     <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
                     </svg>
@@ -907,7 +927,7 @@
                             <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
                         </svg>
                     </button>
-                `;
+                ;
                 
                 // Add click event for selecting chat
                 chatItem.addEventListener('click', () => selectChat(chat.id));
@@ -918,7 +938,6 @@
                 chatHistory.appendChild(chatItem);
             });
         }
-
         // Render messages
         function renderMessages() {
             // Keep the welcome screen if no messages
@@ -943,9 +962,9 @@
             // Add messages
             messages.forEach(message => {
                 const messageRow = document.createElement('div');
-                messageRow.className = `message-row ${message.sender === 'user' ? 'user-message' : 'ai-message'}`;
+                messageRow.className = message-row ${message.sender === 'user' ? 'user-message' : 'ai-message'};
                 
-                messageRow.innerHTML = `
+                messageRow.innerHTML = 
                     <div class="message-container">
                         <div class="avatar ${message.sender === 'user' ? 'user-avatar' : ''}">
                             ${message.sender === 'user' ? 
@@ -957,7 +976,7 @@
                             ${formatMessage(message.content)}
                         </div>
                     </div>
-                `;
+                ;
                 
                 chatContainer.appendChild(messageRow);
             });
@@ -991,14 +1010,14 @@
                         </svg>
                     </div>
                     <div class="message-content">
-                        <div class="loading-dots">
+                    <div class="loading-dots">
                             <div class="dot"></div>
                             <div class="dot"></div>
                             <div class="dot"></div>
                         </div>
                     </div>
                 </div>
-            `;
+            ;
             
             chatContainer.appendChild(loadingRow);
         }
@@ -1010,8 +1029,9 @@
             // Convert line breaks to <br>
             formatted = formatted.replace(/\n/g, '<br>');
             
-            // Format code blocks (```code```)
-            formatted = formatted.replace(/```([\s\S]*?)```/g, '<pre><code>$1</code></pre>');
+            // Format code blocks (``code
+            formatted = formatted.replace(/
+([\s\S]*?)`/g, '<pre><code>$1</code></pre>');
             
             // Format inline code (`code`)
             formatted = formatted.replace(/`([^`]+)`/g, '<code>$1</code>');
@@ -1081,8 +1101,10 @@
         init();
     </script>
     
-    <!-- A-Ads Bottom -->
-    <iframe data-aa='2387228' src='//ad.a-ads.com/2387228?size=468x60' 
-            style='width:468px; height:60px; border:0px; padding:0; overflow:hidden; background-color: transparent; position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); z-index: 100;'></iframe>
+    <!-- Bottom Ad -->
+    <div class="bottom-ad">
+        <iframe data-aa='2387228' src='//ad.a-ads.com/2387228?size=468x60' 
+                style='width:468px; height:60px; border:0px; padding:0; overflow:hidden; background-color: transparent;'></iframe>
+    </div>
 </body>
 </html>
